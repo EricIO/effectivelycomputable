@@ -9,20 +9,17 @@
 <script src="../lib/Modernizr/modernizr-2.0.6.js"></script>
 <script src="../lib/seedrandom.min.js"></script>
 <script src="unique.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 
-window.addEventListener("load", windowLoadHandler, false);
+$(document).ready(function(){
+	$('#hamburger').click(function(){
+		$(this).toggleClass('open');
+		$('#menutext').toggle(500);
+	});
+});
 
-//for debug messages while testing code
-var Debugger = function() { };
-Debugger.log = function(message) {
-	try {
-		console.log(message);
-	}
-	catch (exception) {
-		return;
-	}
-}
+window.addEventListener("load", windowLoadHandler, false);
 
 function windowLoadHandler() {
 	canvasApp();
@@ -30,6 +27,10 @@ function windowLoadHandler() {
 
 function canvasSupport() {
 	return Modernizr.canvas;
+}
+
+function randInterval(max, min) {
+	return Math.random() * (max - min) + min;
 }
 
 function canvasApp() {
@@ -83,10 +84,10 @@ function canvasApp() {
 	init();
 	
 	function init() {
-		numCircles = 15;
-		maxMaxRad = 200;
-		minMaxRad = 200;
-		minRadFactor = 0;
+		numCircles = randInterval(2,100);
+		maxMaxRad = randInterval(5,300);
+		minMaxRad = randInterval(5,300);
+		minRadFactor = Math.random();
 		iterations = 11;
 		numPoints = Math.pow(2,iterations)+1;
 		drawsPerFrame = 4;
@@ -102,13 +103,13 @@ function canvasApp() {
 		
 		stepsPerSegment = Math.floor(500/numCircles);
 		
-		maxColorValue = 80;
-		lineAlpha = 0.06;
+		maxColorValue = 150;
+		lineAlpha = randInterval(0.01,0.1);
 		
 		bgColor = "#ffffff";
 		urlColor = "#cccccc";
 		
-		lineWidth = 1.25;
+		lineWidth = 1;
 		
 		startGenerate();
 	}
@@ -141,17 +142,16 @@ function canvasApp() {
 		var lastColorObject;
 		var i, len;
 		
-		var redFactor = 1;
-		var blueFactor = 0.7;
-		var greenFactor = 1;
+		var redFactor = Math.random();
+		var blueFactor = Math.random();
+		var greenFactor = Math.random();
 		
 		r0 = redFactor*Math.random()*maxColorValue;
-		//I like to balance reds with some green, so I'm making sure green is at least 20 percent of the red.
-		g0 = 0.2*r0 + greenFactor*Math.random()*(maxColorValue - 0.2*r0);
+		g0 = greenFactor*Math.random()*(maxColorValue);
 		b0 = blueFactor*Math.random()*maxColorValue;
 				
 		r2 = redFactor*Math.random()*maxColorValue;
-		g2 = 0.2*r2 + greenFactor*Math.random()*(maxColorValue - 0.2*r2);
+		g2 = greenFactor*Math.random()*(maxColorValue);
 		b2 = blueFactor*Math.random()*maxColorValue;
 		
 		//middle color will be darkened average of other two
@@ -258,7 +258,7 @@ function canvasApp() {
 				
 				for (j = 0; j < stepsPerSegment; j++) {
 					linParam = j/(stepsPerSegment-1);
-					cosParam = 0.5-0.5*Math.cos(linParam*Math.PI);
+					cosParam = 0.5-0.5543234234*Math.cos(linParam*Math.PI);
 					
 					//interpolate center
 					centerX = circles[i].centerX + linParam*(circles[i+1].centerX - circles[i].centerX);
@@ -399,26 +399,25 @@ function canvasApp() {
 }
 
 </script>
-
 <title>HTML5 Canvas Generative Art</title>
-
-<style type="text/css">
-	body {background-color:#ffffff; color:#333333; margin: 0; padding: 0;} 
-	h4 {font-family: sans-serif; color:#333333; font-size:16px;}
-	h3 {font-family: sans-serif; color:#333333;}
-	p {font-family: sans-serif; color:#333333; font-size:14px;}
-		#caption {position:absolute; width:1024px; text-align:center; top:520px; z-index:1}
-	a {font-family: sans-serif; color:#d15423; text-decoration:none;}
-	canvas {}
-		#displayCanvas {    position:absolute;
-    width:100%;
-    height:100%;}
-	div {margin: 0; padding: 0;}
-</style>
-
+<link type="text/css" rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div id="container"> 
+<div id="container">
+	<div id="menu">
+		<div id="menutext">
+			<ul>
+				<li><a href="#">Text Text</p></li>
+				<li><a href="#">More Text</p></li>
+			</ul>
+		</div>
+		<div id="hamburger">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		
+	</div>
     <canvas id="displayCanvas" width="1024px" height="576px">
         Your browser does not support HTML5 canvas.
     </canvas>
