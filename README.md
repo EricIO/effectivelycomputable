@@ -1,2 +1,2 @@
-# Effectively Computeable
+# Effectively Computable
 
