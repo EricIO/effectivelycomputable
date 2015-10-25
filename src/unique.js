@@ -8,6 +8,10 @@ data[1] = navigator.userAgent
 
 data[2] = navigator.oscpu
 
+data[3] = navigator.language
+
+data[4] = navigator.plugins
+
 	return data.join("");
 
 };
